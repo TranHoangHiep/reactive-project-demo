@@ -23,7 +23,7 @@ class UserServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        userService = new UserServiceImpl();
+//        userService = new UserServiceImpl();
 //        when(userRepository.findAll()).thenReturn(null);
     }
 
