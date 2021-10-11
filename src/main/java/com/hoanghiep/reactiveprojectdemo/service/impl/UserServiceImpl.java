@@ -2,6 +2,7 @@ package com.hoanghiep.reactiveprojectdemo.service.impl;
 
 import com.hoanghiep.reactiveprojectdemo.entity.User;
 import com.hoanghiep.reactiveprojectdemo.mapper.UserMapper;
+import com.hoanghiep.reactiveprojectdemo.model.UserDto;
 import com.hoanghiep.reactiveprojectdemo.model.UserPagedList;
 import com.hoanghiep.reactiveprojectdemo.repository.UserRepository;
 import com.hoanghiep.reactiveprojectdemo.service.UserService;
@@ -28,5 +29,12 @@ public class UserServiceImpl implements UserService {
                 .map(users -> {
                     return new UserPagedList(users, PageRequest.of(pageRequest.getPageNumber(), pageRequest.getPageSize()), users.size());
                 });
+    }
+
+    @Override
+    public Mono<UserDto> create(Mono<UserDto> userDtoMono) {
+        return userDtoMono.map(userMapper::userDtoToUser)
+                .flatMap(userRepository::save)
+                .map(userMapper::userToUserDto);
     }
 }

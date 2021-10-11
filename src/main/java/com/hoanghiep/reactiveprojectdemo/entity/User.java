@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(value = "user_data")
+@Table(value = "user")
 @Builder
 public class User {
 
@@ -18,4 +18,5 @@ public class User {
     private Long id;
     private String email;
     private String username;
+    private String password;
 }

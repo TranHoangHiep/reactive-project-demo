@@ -1,5 +1,7 @@
 package com.hoanghiep.reactiveprojectdemo.handler;
 
+import com.hoanghiep.reactiveprojectdemo.config.RouterConfig;
+import com.hoanghiep.reactiveprojectdemo.model.UserDto;
 import com.hoanghiep.reactiveprojectdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +28,19 @@ public class UserHandler {
         Optional<String> optionalPageSize = request.queryParam("pageSize");
         Integer pageNumber = (optionalPageNumber.isPresent()) ? Integer.parseInt(optionalPageNumber.get()) : DEFAULT_PAGE_NUMBER;
         Integer pageSize = (optionalPageSize.isPresent()) ? Integer.parseInt(optionalPageSize.get()) : DEFAULT_PAGE_SIZE;
-        return userService.list(PageRequest.of(pageNumber, pageSize)).flatMap(userDto -> {
-            return ServerResponse.ok().bodyValue(userDto);
-        }).switchIfEmpty(ServerResponse.notFound().build());
+        return userService.list(PageRequest.of(pageNumber, pageSize))
+                .flatMap(userDto -> {
+                    return ServerResponse.ok().bodyValue(userDto);
+                }).switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    public Mono<ServerResponse> create(ServerRequest request) {
+        Mono<UserDto> userDtoMono = request.bodyToMono(UserDto.class);
+
+        return userService.create(userDtoMono).flatMap(userDto -> {
+            return ServerResponse.ok()
+                    .header("location", RouterConfig.USER_URL + "/" + userDto.getId())
+                    .build();
+        });
     }
 }

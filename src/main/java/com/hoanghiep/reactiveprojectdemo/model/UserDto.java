@@ -1,5 +1,6 @@
 package com.hoanghiep.reactiveprojectdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +21,6 @@ public class UserDto {
     private String email;
     @NotBlank
     private String username;
+    @NotBlank
+    private String password;
 }
