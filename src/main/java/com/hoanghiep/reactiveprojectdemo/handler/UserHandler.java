@@ -67,6 +67,7 @@ public class UserHandler {
 
         if (errors.hasErrors()) {
             log.info("Have error");
+            log.info(errors.toString());
             throw new ServerWebInputException(errors.toString());
         }
     }
