@@ -37,4 +37,17 @@ public class UserServiceImpl implements UserService {
                 .flatMap(userRepository::save)
                 .map(userMapper::userToUserDto);
     }
+
+    @Override
+    public Mono<UserDto> update(Long userId, UserDto userDto) {
+        return userRepository.findById(userId)
+                .map(user -> {
+                    user.setEmail(userDto.getEmail());
+                    user.setUsername(userDto.getUsername());
+                    user.setPassword(userDto.getPassword());
+                    return user;
+                })
+                .flatMap(userRepository::save)
+                .map(userMapper::userToUserDto);
+    }
 }

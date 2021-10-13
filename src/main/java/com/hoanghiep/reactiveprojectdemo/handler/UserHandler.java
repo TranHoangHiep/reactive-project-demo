@@ -43,4 +43,14 @@ public class UserHandler {
                     .build();
         });
     }
+
+    public Mono<ServerResponse> update(ServerRequest request) {
+        Mono<UserDto> userDtoMono = request.bodyToMono(UserDto.class);
+        return userDtoMono.flatMap(userDto -> {
+            return userService.update(Long.parseLong(request.pathVariable("id")), userDto);
+        }).flatMap(userDtoUpdated -> {
+            log.info("Save user id: {}", userDtoUpdated.getId());
+            return ServerResponse.ok().build();
+        });
+    }
 }

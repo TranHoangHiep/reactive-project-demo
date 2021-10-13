@@ -11,4 +11,6 @@ public interface UserService {
     Mono<UserPagedList> list(PageRequest pageRequest);
 
     Mono<UserDto> create(Mono<UserDto> userDtoMono);
+
+    Mono<UserDto> update(Long userId, UserDto userDto);
 }

@@ -14,13 +14,14 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class RouterConfig {
 
     public static final String USER_URL = "/api/v1/users";
+    public static final String USER_URL_ID = "/api/v1/users/{id}";
 
     @Bean
     public RouterFunction<ServerResponse> routerFunction(UserHandler handler) {
         return route()
                 .GET(USER_URL, accept(APPLICATION_JSON), handler::list)
                 .POST(USER_URL, accept(APPLICATION_JSON), handler::create)
+                .PUT(USER_URL_ID, accept(APPLICATION_JSON), handler::update)
                 .build();
-//        return null;
     }
 }
